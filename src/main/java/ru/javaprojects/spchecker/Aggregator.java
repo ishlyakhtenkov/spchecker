@@ -1,0 +1,34 @@
+package ru.javaprojects.spchecker;
+
+import ru.javaprojects.spchecker.sp.SpDocument;
+import ru.javaprojects.spchecker.sp.SpReader;
+
+import java.nio.file.Path;
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class Aggregator {
+    private final Map<SpDocument, Document> documents = new HashMap<>();
+
+    public void handleSpecifications(List<Path> spPaths) {
+        spPaths.forEach(spPath -> {
+            var spReader = new SpReader(spPath);
+            spReader.getDocuments()
+                    .forEach(spDocument -> {
+                        var document = documents.get(spDocument);
+                        if (document == null) {
+                            documents.put(spDocument, new Document(spDocument.decimalNumber(), spDocument.name(),
+                                    new HashSet<>(Set.of(spReader.getSpDecimalNumber()))));
+                        } else {
+                            document.applicability().add(spReader.getSpDecimalNumber());
+                        }
+                    });
+        });
+    }
+
+    public List<Document> getDocuments() {
+        return documents.values().stream()
+                .sorted(Comparator.comparing(Document::decimalNumber))
+                .collect(Collectors.toList());
+    }
+}
