@@ -9,7 +9,8 @@ public class AggregatorTestData {
             Map.entry(new SpDocument("АБВГ.301412.847СБ", "ПАНЕЛЬ 12345 СБОРОЧНЫЙ ЧЕРТЕЖ"), new Document("АБВГ.301412.847СБ", "ПАНЕЛЬ 12345 СБОРОЧНЫЙ ЧЕРТЕЖ", new TreeSet<>(Set.of("АБВГ.301412.847")))),
             Map.entry(new SpDocument("АБВГ.741128.977", "ПАНЕЛЬ"), new Document("АБВГ.741128.977", "ПАНЕЛЬ", new TreeSet<>(Set.of("АБВГ.301412.847")))),
             Map.entry(new SpDocument("АБВГ.711141.044", "КОЛЕСО"), new Document("АБВГ.711141.044", "КОЛЕСО", new TreeSet<>(Set.of("АБВГ.301412.847", "АБВГ.301412.849", "АБВГ.468362.046")))),
-            Map.entry(new SpDocument("ЧИПС.723111.235", "ВТУЛКА"), new Document("ЧИПС.723111.235", "ВТУЛКА", new TreeSet<>(Set.of("АБВГ.301412.847", "АБВГ.468362.046")))),
+            Map.entry(new SpDocument("ЧИПС.723111.235", "ВТУЛКА 2"), new Document("ЧИПС.723111.235", "ВТУЛКА 2", new TreeSet<>(Set.of("АБВГ.468362.046")))),
+            Map.entry(new SpDocument("ЧИПС.723111.235", "ВТУЛКА 1"), new Document("ЧИПС.723111.235", "ВТУЛКА 1", new TreeSet<>(Set.of("АБВГ.301412.847")))),
             Map.entry(new SpDocument("СКИД.757471.010-01", "КОНТАКТ В-1,8 ОСТ 4.209.007-82"), new Document("СКИД.757471.010-01", "КОНТАКТ В-1,8 ОСТ 4.209.007-82", new TreeSet<>(Set.of("АБВГ.301412.847")))),
             Map.entry(new SpDocument("АБВГ.301412.849 СБ", "ПАНЕЛЬ 2 СБОРОЧНЫЙ ЧЕРТЕЖ"), new Document("АБВГ.301412.849 СБ", "ПАНЕЛЬ 2 СБОРОЧНЫЙ ЧЕРТЕЖ", new TreeSet<>(Set.of("АБВГ.301412.849")))),
             Map.entry(new SpDocument("ХБ6.367.031", "ШАРНИР"), new Document("ХБ6.367.031", "ШАРНИР", new TreeSet<>(Set.of("АБВГ.301412.849")))),
@@ -46,6 +47,12 @@ public class AggregatorTestData {
     );
 
     public static List<Document> documents = aggregatedDocuments.values().stream()
-            .sorted(Comparator.comparing(Document::decimalNumber))
+            .sorted(Comparator.comparing(Document::decimalNumber).thenComparing(Document::name))
             .toList();
+
+    public static List<Document> documentsWithNameDifferences = List.of(
+            new Document("ЧИПС.723111.235", "ВТУЛКА 1", new TreeSet<>(Set.of("АБВГ.301412.847"))),
+            new Document("ЧИПС.723111.235", "ВТУЛКА 2", new TreeSet<>(Set.of("АБВГ.468362.046"))
+            ));
+
 }

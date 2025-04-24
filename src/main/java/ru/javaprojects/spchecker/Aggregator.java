@@ -32,4 +32,21 @@ public class Aggregator {
                 .sorted(Comparator.comparing(Document::decimalNumber))
                 .collect(Collectors.toList());
     }
+
+    public List<Document> getDocumentsWithNameDifferences() {
+        var nameDiffDocuments = new HashSet<Document>();
+        Map<String, Document> decimalNumbers = new HashMap<>();
+        documents.values().forEach(document -> {
+            var alreadyProcessedDoc = decimalNumbers.get(document.decimalNumber());
+            if (alreadyProcessedDoc == null) {
+                decimalNumbers.put(document.decimalNumber(), document);
+            } else {
+                nameDiffDocuments.add(alreadyProcessedDoc);
+                nameDiffDocuments.add(document);
+            }
+        });
+        return nameDiffDocuments.stream()
+                .sorted(Comparator.comparing(Document::decimalNumber).thenComparing(Document::name))
+                .toList();
+    }
 }

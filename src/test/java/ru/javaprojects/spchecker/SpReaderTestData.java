@@ -36,7 +36,7 @@ public class SpReaderTestData {
             new SpDocument("ФЫВА.301231.034", "КАРКАС"),
             new SpDocument("ФЫВА.304551.002", "РУЧКА"),
             new SpDocument("АБВГ.711141.044", "КОЛЕСО"),
-            new SpDocument("ЧИПС.723111.235", "ВТУЛКА"),
+            new SpDocument("ЧИПС.723111.235", "ВТУЛКА 2"),
             new SpDocument("ЧИПС.742161.007", "УПОР"),
             new SpDocument("ЧИПС.742161.008", "УПОР"),
             new SpDocument("ЧИПС.742244.001", "ШАССИ"),
@@ -68,7 +68,7 @@ public class SpReaderTestData {
         spLines.add(EMPTY_LINE);
         spLines.add(new SpLine("", "", "2", "АБВГ.711141.044", "КОЛЕСО", "2", ""));
         spLines.add(EMPTY_LINE);
-        spLines.add(new SpLine("", "", "4", "ЧИПС.723111.235", "ВТУЛКА", "1", ""));
+        spLines.add(new SpLine("", "", "4", "ЧИПС.723111.235", "ВТУЛКА 1", "1", ""));
         spLines.add(EMPTY_LINE);
         spLines.add(EMPTY_LINE);
         spLines.add(EMPTY_LINE);

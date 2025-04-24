@@ -27,6 +27,7 @@ public class AppMain {
         var aggregator = new Aggregator();
         aggregator.handleSpecifications(spPaths);
         printDocuments(aggregator.getDocuments(), spDir.resolve("report.txt"));
+        printDocuments(aggregator.getDocumentsWithNameDifferences(), spDir.resolve("report-diff-names.txt"));
     }
 
     private static void printDocuments(List<Document> documents, Path reportPath) {
