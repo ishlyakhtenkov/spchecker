@@ -16,6 +16,8 @@ public class SpReaderTestData {
 
     public static final String ABVG_468362_046_SP_NAME = "ЕДИНЫЙ КОМПЛЕКС УЧЕБНО-ТРЕНИРОВОЧНЫХ СРЕДСТВ ДЛЯ АБГ 1-234 К4566";
     public static final String ABVG_468362_046_SP_DECIMAL_NUMBER = "АБВГ.468362.046";
+    public static final String ABVG_301412_847_SP_NAME = "ПАНЕЛЬ 12345";
+    public static final String ABVG_301412_849_SP_NAME = "ПАНЕЛЬ 2";
 
         public static List<SpDocument> spDocuments = List.of(
             new SpDocument("АБВГ.468362.046СБ", "ЕДИНЫЙ КОМПЛЕКС УЧЕБНО-ТРЕНИРОВОЧНЫХ СРЕДСТВ ДЛЯ АБГ 1-234 К4566 СБОРОЧНЫЙ ЧЕРТЕЖ"),

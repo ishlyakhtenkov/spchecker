@@ -6,7 +6,7 @@ import java.util.*;
 
 public class AggregatorTestData {
     public static Map<SpDocument, Document> aggregatedDocuments = Map.ofEntries(
-            Map.entry(new SpDocument("АБВГ.301412.847СБ", "ПАНЕЛЬ 1 СБОРОЧНЫЙ ЧЕРТЕЖ"), new Document("АБВГ.301412.847СБ", "ПАНЕЛЬ 1 СБОРОЧНЫЙ ЧЕРТЕЖ", new TreeSet<>(Set.of("АБВГ.301412.847")))),
+            Map.entry(new SpDocument("АБВГ.301412.847СБ", "ПАНЕЛЬ 12345 СБОРОЧНЫЙ ЧЕРТЕЖ"), new Document("АБВГ.301412.847СБ", "ПАНЕЛЬ 12345 СБОРОЧНЫЙ ЧЕРТЕЖ", new TreeSet<>(Set.of("АБВГ.301412.847")))),
             Map.entry(new SpDocument("АБВГ.741128.977", "ПАНЕЛЬ"), new Document("АБВГ.741128.977", "ПАНЕЛЬ", new TreeSet<>(Set.of("АБВГ.301412.847")))),
             Map.entry(new SpDocument("АБВГ.711141.044", "КОЛЕСО"), new Document("АБВГ.711141.044", "КОЛЕСО", new TreeSet<>(Set.of("АБВГ.301412.847", "АБВГ.301412.849", "АБВГ.468362.046")))),
             Map.entry(new SpDocument("ЧИПС.723111.235", "ВТУЛКА"), new Document("ЧИПС.723111.235", "ВТУЛКА", new TreeSet<>(Set.of("АБВГ.301412.847", "АБВГ.468362.046")))),

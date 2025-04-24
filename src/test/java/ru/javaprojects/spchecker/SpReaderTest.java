@@ -20,6 +20,10 @@ public class SpReaderTest {
     void getSpName() {
         var spReader = new SpReader(ABVG_468362_046_SP_PATH);
         Assertions.assertEquals(ABVG_468362_046_SP_NAME, spReader.getSpName());
+        spReader = new SpReader(ABVG_301412_847_SP_PATH);
+        Assertions.assertEquals(ABVG_301412_847_SP_NAME, spReader.getSpName());
+        spReader = new SpReader(ABVG_301412_849_SP_PATH);
+        Assertions.assertEquals(ABVG_301412_849_SP_NAME, spReader.getSpName());
     }
 
     @Test

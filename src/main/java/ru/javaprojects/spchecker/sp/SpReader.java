@@ -27,8 +27,7 @@ public class SpReader {
     public SpReader(Path spPath) {
         spDecimalNumber = spPath.getFileName().toString().substring(0, spPath.getFileName().toString().lastIndexOf("."));
         try (var fis = Files.newInputStream(spPath); var sp = new XWPFDocument(fis)) {
-            int mainInscriptionFooterIndex = findMainInscriptionFooterIndex(sp);
-            spName = sp.getFooterList().get(mainInscriptionFooterIndex).getTables().getFirst().getRows().get(5).getCell(4).getText().trim();
+            spName = findSpName(sp);
             lines = sp.getTables().stream()
                     .flatMap(table -> table.getRows().stream())
                     .map(row -> new SpLine.Builder()
@@ -46,14 +45,25 @@ public class SpReader {
         }
     }
 
-    private int findMainInscriptionFooterIndex(XWPFDocument sp) {
+    private String findSpName(XWPFDocument sp) {
+        int mainInscriptionFooterIndex = -1;
         var footers = sp.getFooterList();
         for (int i = 0; i < footers.size(); i++) {
             if (footers.get(i).getText().contains("Разраб.")) {
-                return i;
+                mainInscriptionFooterIndex = i;
+                break;
             }
         }
-        throw new AppException("Not found main inscription footer in SP: " + spDecimalNumber);
+        if (mainInscriptionFooterIndex == -1) {
+            throw new AppException("Not found main inscription footer in SP: " + spDecimalNumber);
+        }
+        var spNameParagraphs = sp.getFooterList().get(mainInscriptionFooterIndex).getTables().getFirst().getRows().get(5)
+                .getCell(4).getParagraphs();
+        var spName = new StringBuilder();
+        for (var paragraph : spNameParagraphs) {
+            spName.append(paragraph.getText()).append(" ");
+        }
+        return spName.toString().trim();
     }
 
     public String getSpDecimalNumber() {
@@ -70,7 +80,7 @@ public class SpReader {
             SpLine line = lines.get(i);
             if (!line.designation().isBlank()) {
                 String decimalNumber = line.designation().trim();
-                StringBuilder name = new StringBuilder();
+                var name = new StringBuilder();
                 if (ADD_SP_NAME_TO_DOCS && decimalNumber.startsWith(spDecimalNumber)) {
                     name.append(spName).append(" ");
                 }
