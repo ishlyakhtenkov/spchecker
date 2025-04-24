@@ -27,7 +27,8 @@ public class SpReader {
     public SpReader(Path spPath) {
         spDecimalNumber = spPath.getFileName().toString().substring(0, spPath.getFileName().toString().lastIndexOf("."));
         try (var fis = Files.newInputStream(spPath); var sp = new XWPFDocument(fis)) {
-            spName = sp.getFooterList().get(1).getTables().getFirst().getRows().get(5).getCell(4).getText().trim();
+            int mainInscriptionFooterIndex = findMainInscriptionFooterIndex(sp);
+            spName = sp.getFooterList().get(mainInscriptionFooterIndex).getTables().getFirst().getRows().get(5).getCell(4).getText().trim();
             lines = sp.getTables().stream()
                     .flatMap(table -> table.getRows().stream())
                     .map(row -> new SpLine.Builder()
@@ -43,6 +44,16 @@ public class SpReader {
         } catch (IOException e) {
             throw new AppException(e);
         }
+    }
+
+    private int findMainInscriptionFooterIndex(XWPFDocument sp) {
+        var footers = sp.getFooterList();
+        for (int i = 0; i < footers.size(); i++) {
+            if (footers.get(i).getText().contains("Разраб.")) {
+                return i;
+            }
+        }
+        throw new AppException("Not found main inscription footer in SP: " + spDecimalNumber);
     }
 
     public String getSpDecimalNumber() {

@@ -12,6 +12,7 @@ public class Aggregator {
 
     public void handleSpecifications(List<Path> spPaths) {
         spPaths.forEach(spPath -> {
+            System.out.println("Aggregator handles SP: " + spPath.getFileName());
             var spReader = new SpReader(spPath);
             spReader.getDocuments()
                     .forEach(spDocument -> {
