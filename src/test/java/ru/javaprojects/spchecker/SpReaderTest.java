@@ -1,37 +1,40 @@
+package ru.javaprojects.spchecker;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.javaprojects.spchecker.sp.SpLine;
 import ru.javaprojects.spchecker.sp.SpReader;
 
-import java.nio.file.Paths;
 import java.util.List;
 
+import static ru.javaprojects.spchecker.SpReaderTestData.*;
 public class SpReaderTest {
 
     @Test
     void getSpDecimalNumber() {
-        var spReader = new SpReader(Paths.get("src/test/resources/sp/АБВГ.468362.046.docx"));
+        var spReader = new SpReader(ABVG_468362_046_SP_PATH);
         Assertions.assertEquals("АБВГ.468362.046", spReader.getSpDecimalNumber());
     }
 
     @Test
     void getDocuments() {
-        var spReader = new SpReader(Paths.get("src/test/resources/sp/АБВГ.468362.046.docx"));
+        var spReader = new SpReader(ABVG_468362_046_SP_PATH);
         Assertions.assertEquals(SpReaderTestData.spDocuments, spReader.getDocuments());
     }
 
     @Test
     void getDocumentsWhenSpHasNoDocuments() {
-        var spReader = new SpReader(Paths.get("src/test/resources/sp/no_documents_sp.docx"));
+        var spReader = new SpReader(NO_DOCUMENTS_SP_PATH);
         Assertions.assertEquals(List.of(), spReader.getDocuments());
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     void checkSpLinesCorrect() throws NoSuchFieldException, IllegalAccessException {
-        var spReader = new SpReader(Paths.get("src/test/resources/sp/АБВГ.301412.847.docx"));
+        var spReader = new SpReader(ABVG_301412_847_SP_PATH);
         var linesField = spReader.getClass().getDeclaredField("lines");
         linesField.setAccessible(true);
-        List<SpLine> lines = (List<SpLine>) linesField.get(spReader);
-        Assertions.assertEquals(SpReaderTestData.spLines, lines);
+        var lines = (List<SpLine>) linesField.get(spReader);
+        Assertions.assertEquals(spLines, lines);
     }
 }

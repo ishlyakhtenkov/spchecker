@@ -1,11 +1,20 @@
+package ru.javaprojects.spchecker;
+
 import ru.javaprojects.spchecker.sp.SpDocument;
 import ru.javaprojects.spchecker.sp.SpLine;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SpReaderTestData {
-    public static List<SpDocument> spDocuments = List.of(
+
+    public static final Path ABVG_301412_847_SP_PATH = Path.of("src/test/resources/sp/АБВГ.301412.847.docx");
+    public static final Path ABVG_301412_849_SP_PATH = Path.of("src/test/resources/sp/АБВГ.301412.849.docx");
+    public static final Path ABVG_468362_046_SP_PATH = Path.of("src/test/resources/sp/АБВГ.468362.046.docx");
+    public static final Path NO_DOCUMENTS_SP_PATH = Path.of("src/test/resources/sp/no_documents_sp.docx");
+
+        public static List<SpDocument> spDocuments = List.of(
             new SpDocument("АБВГ.468362.046СБ", "СБОРОЧНЫЙ ЧЕРТЕЖ"),
             new SpDocument("АБВГ.468362.046Э3", "СХЕМА ЭЛЕКТРИЧЕСКАЯ"),
             new SpDocument("АБВГ.468362.046ПЭ3", "ПЕРЕЧЕНЬ ЭЛЕМЕНТОВ"),
