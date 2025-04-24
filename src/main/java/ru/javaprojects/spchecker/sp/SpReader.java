@@ -18,13 +18,16 @@ public class SpReader {
     private static final int NAME_COLUMN_INDEX = Integer.parseInt(AppProperties.getProperty("name_column_index"));
     private static final int QUANTITY_COLUMN_INDEX = Integer.parseInt(AppProperties.getProperty("quantity_column_index"));
     private static final int NOTE_COLUMN_INDEX = Integer.parseInt(AppProperties.getProperty("note_column_index"));
+    private static final boolean ADD_SP_NAME_TO_DOCS = Boolean.parseBoolean(AppProperties.getProperty("add_sp_name_to_docs"));
 
     private final String spDecimalNumber;
+    private final String spName;
     private final List<SpLine> lines;
 
     public SpReader(Path spPath) {
         spDecimalNumber = spPath.getFileName().toString().substring(0, spPath.getFileName().toString().lastIndexOf("."));
         try (var fis = Files.newInputStream(spPath); var sp = new XWPFDocument(fis)) {
+            spName = sp.getFooterList().get(1).getTables().getFirst().getRows().get(5).getCell(4).getText().trim();
             lines = sp.getTables().stream()
                     .flatMap(table -> table.getRows().stream())
                     .map(row -> new SpLine.Builder()
@@ -46,13 +49,21 @@ public class SpReader {
         return spDecimalNumber;
     }
 
+    public String getSpName() {
+        return spName;
+    }
+
     public List<SpDocument> getDocuments() {
         List<SpDocument> documents = new ArrayList<>();
         for (int i = 0; i < lines.size(); i++) {
             SpLine line = lines.get(i);
             if (!line.designation().isBlank()) {
                 String decimalNumber = line.designation().trim();
-                StringBuilder name = new StringBuilder(line.name().trim());
+                StringBuilder name = new StringBuilder();
+                if (ADD_SP_NAME_TO_DOCS && decimalNumber.startsWith(spDecimalNumber)) {
+                    name.append(spName).append(" ");
+                }
+                name.append(line.name().trim());
                 boolean nameCompleted = false;
                 int lineIndex = i;
                 while (lineIndex < (lines.size() - 1) && !nameCompleted) {

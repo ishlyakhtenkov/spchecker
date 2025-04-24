@@ -13,11 +13,17 @@ public class SpReaderTest {
     @Test
     void getSpDecimalNumber() {
         var spReader = new SpReader(ABVG_468362_046_SP_PATH);
-        Assertions.assertEquals("АБВГ.468362.046", spReader.getSpDecimalNumber());
+        Assertions.assertEquals(ABVG_468362_046_SP_DECIMAL_NUMBER, spReader.getSpDecimalNumber());
     }
 
     @Test
-    void getDocuments() {
+    void getSpName() {
+        var spReader = new SpReader(ABVG_468362_046_SP_PATH);
+        Assertions.assertEquals(ABVG_468362_046_SP_NAME, spReader.getSpName());
+    }
+
+    @Test
+    void getDocumentsWhenNotAddSpNameToDocs() throws NoSuchFieldException, IllegalAccessException {
         var spReader = new SpReader(ABVG_468362_046_SP_PATH);
         Assertions.assertEquals(SpReaderTestData.spDocuments, spReader.getDocuments());
     }
