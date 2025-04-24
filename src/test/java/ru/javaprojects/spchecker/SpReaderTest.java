@@ -27,7 +27,7 @@ public class SpReaderTest {
     }
 
     @Test
-    void getDocumentsWhenNotAddSpNameToDocs() throws NoSuchFieldException, IllegalAccessException {
+    void getDocuments() {
         var spReader = new SpReader(ABVG_468362_046_SP_PATH);
         Assertions.assertEquals(SpReaderTestData.spDocuments, spReader.getDocuments());
     }

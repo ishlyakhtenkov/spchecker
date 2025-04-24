@@ -79,23 +79,37 @@ public class SpReader {
         for (int i = 0; i < lines.size(); i++) {
             SpLine line = lines.get(i);
             if (!line.designation().isBlank()) {
-                String decimalNumber = line.designation().trim();
-                var name = new StringBuilder();
-                if (ADD_SP_NAME_TO_DOCS && decimalNumber.startsWith(spDecimalNumber)) {
-                    name.append(spName).append(" ");
-                }
-                name.append(line.name().trim());
-                boolean nameCompleted = false;
-                int lineIndex = i;
-                while (lineIndex < (lines.size() - 1) && !nameCompleted) {
-                    SpLine belowLine = lines.get(++lineIndex);
-                    if (belowLine.designation().isBlank() && !belowLine.name().isBlank()) {
-                        name.append(" ").append(belowLine.name().trim());
-                    } else {
-                        nameCompleted = true;
+                boolean isDocument = (i == lines.size() - 1) || lines.get(i + 1).designation().isBlank();
+                if (!isDocument) {
+                    i++;
+                    boolean blankLineFound = false;
+                    while (i < lines.size() && !blankLineFound) {
+                        if (lines.get(i).designation().isBlank()) {
+                            blankLineFound = true;
+                            i--; // make +1 on FOR cycle to cursor on blank line
+                        } else {
+                            i++;
+                        }
                     }
+                } else {
+                    String decimalNumber = line.designation().trim();
+                    var name = new StringBuilder();
+                    if (ADD_SP_NAME_TO_DOCS && decimalNumber.startsWith(spDecimalNumber)) {
+                        name.append(spName).append(" ");
+                    }
+                    name.append(line.name().trim());
+                    boolean nameCompleted = false;
+                    int lineIndex = i;
+                    while (lineIndex < (lines.size() - 1) && !nameCompleted) {
+                        SpLine belowLine = lines.get(++lineIndex);
+                        if (belowLine.designation().isBlank() && !belowLine.name().isBlank()) {
+                            name.append(" ").append(belowLine.name().trim());
+                        } else {
+                            nameCompleted = true;
+                        }
+                    }
+                    documents.add(new SpDocument(decimalNumber, name.toString()));
                 }
-                documents.add(new SpDocument(decimalNumber, name.toString()));
             }
         }
         return documents;
