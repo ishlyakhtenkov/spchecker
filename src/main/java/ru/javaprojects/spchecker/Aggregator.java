@@ -18,7 +18,7 @@ public class Aggregator {
                         var document = documents.get(spDocument);
                         if (document == null) {
                             documents.put(spDocument, new Document(spDocument.decimalNumber(), spDocument.name(),
-                                    new HashSet<>(Set.of(spReader.getSpDecimalNumber()))));
+                                    new TreeSet<>(Set.of(spReader.getSpDecimalNumber()))));
                         } else {
                             document.applicability().add(spReader.getSpDecimalNumber());
                         }

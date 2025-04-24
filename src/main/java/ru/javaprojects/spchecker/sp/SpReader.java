@@ -7,6 +7,7 @@ import ru.javaprojects.spchecker.AppProperties;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SpReader {
@@ -46,9 +47,25 @@ public class SpReader {
     }
 
     public List<SpDocument> getDocuments() {
-        return lines.stream()
-                .filter(line -> !line.designation().isBlank())
-                .map(line -> new SpDocument(line.designation(), line.name()))
-                .toList();
+        List<SpDocument> documents = new ArrayList<>();
+        for (int i = 0; i < lines.size(); i++) {
+            SpLine line = lines.get(i);
+            if (!line.designation().isBlank()) {
+                String decimalNumber = line.designation().trim();
+                StringBuilder name = new StringBuilder(line.name().trim());
+                boolean nameCompleted = false;
+                int lineIndex = i;
+                while (lineIndex < (lines.size() - 1) && !nameCompleted) {
+                    SpLine belowLine = lines.get(++lineIndex);
+                    if (belowLine.designation().isBlank() && !belowLine.name().isBlank()) {
+                        name.append(" ").append(belowLine.name().trim());
+                    } else {
+                        nameCompleted = true;
+                    }
+                }
+                documents.add(new SpDocument(decimalNumber, name.toString()));
+            }
+        }
+        return documents;
     }
 }
